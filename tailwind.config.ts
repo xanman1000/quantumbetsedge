@@ -63,9 +63,10 @@ export default {
           ring: 'hsl(var(--sidebar-ring))'
         },
         quantum: {
-          primary: "#2E86C1",
-          secondary: "#28B463",
-          neutral: "#F4F6F6",
+          primary: "#F97316", // bright orange
+          secondary: "#222222", // dark gray
+          neutral: "#403E43", // charcoal gray
+          accent: "#000000e6", // semi-transparent black
         }
       },
       fontFamily: {

@@ -5,81 +5,98 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const tiers = [
   {
-    name: "Beginner's Luck",
+    name: "Basic",
     price: "Free",
     period: "forever",
-    description: "Perfect for beginners looking to test our platform",
+    description: "Start your betting journey",
     features: [
-      "Get 3 daily betting picks",
-      "Basic analytics",
-      "Email delivery",
+      "Limited daily picks",
+      "Basic analytics dashboard",
+      "Email notifications",
     ],
   },
   {
-    name: "Serious Enthusiast",
-    price: "$6.99",
-    period: "per week",
-    description: "Most popular plan for serious enthusiasts",
+    name: "Daily Pass",
+    price: "$0.99",
+    period: "per day",
+    description: "Buy today's top picks",
     features: [
-      "Get 7 daily betting picks",
-      "Enhanced analytics",
-      "Priority email delivery",
+      "All picks for today",
+      "Detailed analysis",
+      "24-hour support",
+    ],
+  },
+  {
+    name: "Locksmith",
+    price: "$5.99",
+    period: "per week",
+    description: "Unlock consistent profits",
+    features: [
+      "Weekly access to all picks",
+      "Premium analytics",
+      "Priority support",
     ],
     popular: true,
   },
   {
-    name: "Professional User",
-    price: "$12.99",
-    period: "per week",
-    description: "Maximum insights for the professional user",
+    name: "Lockness Monster",
+    price: "$19.99",
+    period: "per month",
+    description: "Maximum profit potential",
     features: [
-      "Full access - Get all 10 Daily betting picks!",
-      "Mobile Access",
-      "Priority Chat and support",
+      "Unlimited access to all picks",
+      "Advanced AI insights",
+      "VIP support & community",
     ],
   },
 ];
 
 const PricingSection = () => {
   return (
-    <section className="py-20">
+    <section className="py-20 bg-quantum-accent">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Unlock Your Winning Strategy
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white">
+          Choose Your Winning Plan
         </h2>
-        <p className="text-xl text-center text-gray-600 mb-12">
-          Choose the plan that best fits your betting style
+        <p className="text-xl text-center text-white/80 mb-12">
+          Start with a free trial and upgrade anytime
         </p>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {tiers.map((tier) => (
-            <Card key={tier.name} className={`relative ${tier.popular ? 'border-quantum-primary shadow-lg' : ''}`}>
+            <Card 
+              key={tier.name} 
+              className={`relative bg-quantum-secondary border-quantum-neutral hover:border-quantum-primary transition-colors ${
+                tier.popular ? 'border-quantum-primary shadow-lg shadow-quantum-primary/20' : ''
+              }`}
+            >
               {tier.popular && (
                 <div className="absolute top-0 right-0 bg-quantum-primary text-white px-4 py-1 rounded-bl-lg text-sm">
                   Most Popular
                 </div>
               )}
               <CardHeader>
-                <CardTitle className="text-2xl font-bold">{tier.name}</CardTitle>
+                <CardTitle className="text-2xl font-bold text-white">{tier.name}</CardTitle>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold">{tier.price}</span>
-                  <span className="text-gray-600">/{tier.period}</span>
+                  <span className="text-4xl font-bold text-quantum-primary">{tier.price}</span>
+                  <span className="text-gray-400">/{tier.period}</span>
                 </div>
-                <p className="text-gray-600 mt-2">{tier.description}</p>
+                <p className="text-gray-400 mt-2">{tier.description}</p>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-4">
                   {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-center">
-                      <Check className="h-5 w-5 text-quantum-secondary mr-2" />
+                    <li key={feature} className="flex items-center text-white">
+                      <Check className="h-5 w-5 text-quantum-primary mr-2" />
                       <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
                 <Button 
                   className={`w-full mt-6 ${
-                    tier.popular ? 'bg-quantum-primary hover:bg-quantum-primary/90' : ''
+                    tier.popular 
+                      ? 'bg-quantum-primary hover:bg-quantum-primary/90 text-white' 
+                      : 'bg-quantum-neutral hover:bg-quantum-neutral/90 text-white'
                   }`}
-                  variant={tier.popular ? 'default' : 'outline'}
                 >
                   Select Plan
                 </Button>
