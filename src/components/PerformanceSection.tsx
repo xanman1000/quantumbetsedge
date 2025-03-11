@@ -1,25 +1,8 @@
 
 import { TrendingUp, Brain, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
-
-async function fetchPerformanceData() {
-  const { data, error } = await supabase
-    .from('performance_metrics')
-    .select('lifetime_returns, sp500_6m')
-    .single();
-
-  if (error) throw error;
-  return data;
-}
 
 const metrics = [
-  {
-    title: "Lifetime Returns",
-    description: "vs S&P 500 Last 6 Months",
-    icon: TrendingUp,
-  },
   {
     title: "AI Analysis",
     value: "24/7",
@@ -32,14 +15,15 @@ const metrics = [
     description: "Data & Insights Every Single Day",
     icon: Clock,
   },
+  {
+    title: "Lifetime Returns",
+    value: "+49%",
+    description: "Average Return Rate",
+    icon: TrendingUp,
+  },
 ];
 
 const PerformanceSection = () => {
-  const { data: performanceData, isLoading } = useQuery({
-    queryKey: ['performance-metrics'],
-    queryFn: fetchPerformanceData,
-  });
-
   return (
     <section className="py-20 bg-quantum-neutral">
       <div className="container mx-auto px-4">
@@ -55,20 +39,12 @@ const PerformanceSection = () => {
               <CardContent className="p-6">
                 <metric.icon className="h-12 w-12 text-quantum-primary mb-4" />
                 <h3 className={`text-3xl font-bold mb-2 ${
-                  metric.title === "Lifetime Returns" 
-                    ? "text-green-500" 
-                    : "text-quantum-primary"
+                  metric.title === "Lifetime Returns" ? "text-green-500" : "text-quantum-primary"
                 }`}>
-                  {metric.title === "Lifetime Returns" && performanceData
-                    ? `+${performanceData.lifetime_returns}%`
-                    : metric.value}
+                  {metric.value}
                 </h3>
                 <p className="text-lg font-semibold mb-1 text-white">{metric.title}</p>
-                <p className="text-gray-400">
-                  {metric.title === "Lifetime Returns" && performanceData
-                    ? `vs S&P 500 Last 6 Months (${performanceData.sp500_6m}%)`
-                    : metric.description}
-                </p>
+                <p className="text-gray-400">{metric.description}</p>
               </CardContent>
             </Card>
           ))}

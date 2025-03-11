@@ -9,45 +9,29 @@ const tiers = [
     price: "Free",
     period: "forever",
     description: "Start your betting journey",
-    features: [
-      "Limited daily picks",
-      "Basic analytics dashboard",
-      "Email notifications",
-    ],
+    features: ["3 picks per day"],
   },
   {
     name: "Daily Pass",
     price: "$0.99",
-    period: "per day",
+    period: "one-time",
     description: "Buy today's top picks",
-    features: [
-      "All picks for today",
-      "Detailed analysis",
-      "24-hour support",
-    ],
+    features: ["All picks for today"],
   },
   {
     name: "Locksmith",
-    price: "$5.99",
+    price: "$4.99",
     period: "per week",
-    description: "Unlock consistent profits",
-    features: [
-      "Weekly access to all picks",
-      "Premium analytics",
-      "Priority support",
-    ],
+    description: "Weekly access to all picks",
+    features: ["Full access to all picks"],
     popular: true,
   },
   {
     name: "Lockness Monster",
     price: "$19.99",
     period: "per month",
-    description: "Maximum profit potential",
-    features: [
-      "Unlimited access to all picks",
-      "Advanced AI insights",
-      "VIP support & community",
-    ],
+    description: "Cheapest option for bulk picks",
+    features: ["Best value for regular users"],
   },
 ];
 
