@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuantumBets Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div id="app" class="container mx-auto px-4 py-8">
+    <!-- Login Screen -->
+    <div id="login-screen" class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 mt-20">
+      <h1 class="text-2xl font-bold mb-6 text-center">QuantumBets Admin</h1>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+          Username
+        </label>
+        <input id="username" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Username">
+      </div>
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+          Password
+        </label>
+        <input id="password" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Password">
+      </div>
+      <div class="flex items-center justify-between">
+        <button id="login-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+          Sign In
+        </button>
+      </div>
+      <p id="login-error" class="text-red-500 text-xs italic mt-4 hidden"></p>
+    </div>
+
+    <!-- Dashboard Screen (Hidden by default) -->
+    <div id="dashboard-screen" class="hidden">
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">QuantumBets Admin</h1>
+        <button id="logout-button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Logout</button>
+      </div>
+      
+      <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 class="text-xl font-bold mb-4">Create New Content</h2>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="content-title">
+            Title
+          </label>
+          <input id="content-title" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Week 12 NFL Insights">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="content-summary">
+            Summary
+          </label>
+          <input id="content-summary" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Our proprietary algorithm has identified...">
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="content-body">
+            Content (HTML)
+          </label>
+          <textarea id="content-body" rows="10" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline font-mono" placeholder="<h2>Week 12 NFL Analysis</h2>..."></textarea>
+        </div>
+        <div class="flex items-center justify-between">
+          <button id="preview-button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Preview
+          </button>
+          <button id="save-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Save & Publish
+          </button>
+        </div>
+      </div>
+      
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-xl font-bold mb-4">Content Preview</h2>
+        <div id="preview-content" class="border p-4 rounded min-h-[200px]">
+          <p class="text-gray-500 italic">No content to preview</p>
+        </div>
+      </div>
+      
+      <div class="bg-white shadow-md rounded-lg p-6 mt-8">
+        <h2 class="text-xl font-bold mb-4">Content History</h2>
+        <div id="content-list" class="space-y-4">
+          <p class="text-gray-500 italic">Loading content...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DOM Elements
+    const loginScreen = document.getElementById('login-screen');
+    const dashboardScreen = document.getElementById('dashboard-screen');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginButton = document.getElementById('login-button');
+    const loginError = document.getElementById('login-error');
+    const logoutButton = document.getElementById('logout-button');
+    const contentTitle = document.getElementById('content-title');
+    const contentSummary = document.getElementById('content-summary');
+    const contentBody = document.getElementById('content-body');
+    const previewButton = document.getElementById('preview-button');
+    const saveButton = document.getElementById('save-button');
+    const previewContent = document.getElementById('preview-content');
+    const contentList = document.getElementById('content-list');
+    
+    // Check if user is logged in
+    const checkAuth = () => {
+      const token = localStorage.getItem('adminToken');
+      if (token) {
+        loginScreen.classList.add('hidden');
+        dashboardScreen.classList.remove('hidden');
+        loadContent();
+      } else {
+        loginScreen.classList.remove('hidden');
+        dashboardScreen.classList.add('hidden');
+      }
+    };
+    
+    // Login handling
+    loginButton.addEventListener('click', async () => {
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+      
+      if (!username || !password) {
+        loginError.textContent = 'Username and password are required';
+        loginError.classList.remove('hidden');
+        return;
+      }
+      
+      try {
+        const response = await axios.post('/api/admin-auth', { username, password });
+        
+        if (response.data.success) {
+          localStorage.setItem('adminToken', response.data.token);
+          checkAuth();
+        } else {
+          loginError.textContent = response.data.message || 'Authentication failed';
+          loginError.classList.remove('hidden');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        loginError.textContent = 'Authentication failed. Please try again.';
+        loginError.classList.remove('hidden');
+      }
+    });
+    
+    // Logout handling
+    logoutButton.addEventListener('click', () => {
+      localStorage.removeItem('adminToken');
+      checkAuth();
+    });
+    
+    // Preview button
+    previewButton.addEventListener('click', () => {
+      previewContent.innerHTML = contentBody.value || '<p class="text-gray-500 italic">No content to preview</p>';
+    });
+    
+    // Save button
+    saveButton.addEventListener('click', async () => {
+      const title = contentTitle.value;
+      const content = contentBody.value;
+      const summary = contentSummary.value;
+      
+      if (!title || !content) {
+        alert('Title and content are required');
+        return;
+      }
+      
+      try {
+        const token = localStorage.getItem('adminToken');
+        const response = await axios.post('/api/admin-content', 
+          { title, content, summary },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        
+        if (response.data.success) {
+          alert('Content saved successfully');
+          contentTitle.value = '';
+          contentBody.value = '';
+          contentSummary.value = '';
+          previewContent.innerHTML = '<p class="text-gray-500 italic">No content to preview</p>';
+          loadContent();
+        } else {
+          alert(response.data.message || 'Failed to save content');
+        }
+      } catch (error) {
+        console.error('Save error:', error);
+        alert('Failed to save content. Please try again.');
+      }
+    });
+    
+    // Load content
+    const loadContent = async () => {
+      try {
+        const token = localStorage.getItem('adminToken');
+        const response = await axios.get('/api/admin-content', 
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        
+        if (response.data.success) {
+          const items = response.data.data;
+          
+          if (items.length === 0) {
+            contentList.innerHTML = '<p class="text-gray-500 italic">No content found</p>';
+            return;
+          }
+          
+          contentList.innerHTML = items.map(item => `
+            <div class="border p-4 rounded">
+              <h3 class="font-bold">${item.title}</h3>
+              <p class="text-sm text-gray-500">Created: ${new Date(item.date).toLocaleDateString()}</p>
+              <p class="mt-2">${item.summary || ''}</p>
+            </div>
+          `).join('');
+        } else {
+          contentList.innerHTML = '<p class="text-red-500">Failed to load content</p>';
+        }
+      } catch (error) {
+        console.error('Load error:', error);
+        contentList.innerHTML = '<p class="text-red-500">Failed to load content</p>';
+      }
+    };
+    
+    // Initialize
+    checkAuth();
+  </script>
+</body>
+</html> 
