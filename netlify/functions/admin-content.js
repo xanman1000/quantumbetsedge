@@ -89,4 +89,7 @@ exports.handler = async function(event, context) {
     statusCode: 405,
     body: JSON.stringify({ error: "Method Not Allowed" })
   };
-}; 
+};
+
+// Export the content store for use in other functions
+exports.contentStore = contentStore; 
