@@ -1,69 +1,131 @@
-# Welcome to your Lovable project
+# QuantumBets Newsletter System with n8n Integration
 
-## Project info
+A modern newsletter system for QuantumBets, featuring n8n workflow integration for automated content management and distribution.
 
-**URL**: https://lovable.dev/projects/303acb96-68ff-4939-950e-350f0683535f
+## Features
 
-## How can I edit this code?
+- **Content Management**: Create, edit, publish, and archive newsletter content
+- **Subscriber Management**: Manage subscribers, tiers, and preferences
+- **Automated Workflows**: n8n integration for workflow automation
+- **Multi-channel Distribution**: Email and SMS delivery
+- **Analytics**: Track opens, clicks, and engagement
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React.js with TypeScript
+- **Backend**: Node.js with Express and TypeScript
+- **Database**: MongoDB
+- **Automation**: n8n workflows
+- **Authentication**: JWT-based auth
+- **Email Delivery**: Configurable email service
+- **SMS Delivery**: Twilio integration
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/303acb96-68ff-4939-950e-350f0683535f) and start prompting.
+## Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js 16.x or higher
+- MongoDB
+- n8n instance (self-hosted or cloud)
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-org/quantum-bets-newsletter.git
+   cd quantum-bets-newsletter
+   ```
 
-Follow these steps:
+2. Install dependencies:
+   ```bash
+   # Install backend dependencies
+   cd server
+   npm install
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+   # Install frontend dependencies
+   cd ../
+   npm install
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+3. Configure environment variables:
+   - Copy `.env.example` to `.env` in both the root and server directories
+   - Update the variables with your specific configuration
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Development
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+1. Start the development servers:
+   ```bash
+   # Start backend server
+   cd server
+   npm run dev
 
-**Edit a file directly in GitHub**
+   # Start frontend in a new terminal
+   cd ../
+   npm run dev
+   ```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+2. Access the application:
+   - Frontend: http://localhost:8080
+   - Backend API: http://localhost:5000
 
-**Use GitHub Codespaces**
+## n8n Integration
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The system includes pre-built n8n workflows to automate:
 
-## What technologies are used for this project?
+- Newsletter content distribution
+- Subscriber management
+- Analytics tracking
+- Content scheduling
 
-This project is built with .
+See the [n8n Workflow Guide](./docs/n8n-workflow-guide.md) for detailed setup instructions.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## API Documentation
 
-## How can I deploy this project?
+The API documentation is available at `/api-docs` when running the server locally. It includes all endpoints, expected request formats, and response schemas.
 
-Simply open [Lovable](https://lovable.dev/projects/303acb96-68ff-4939-950e-350f0683535f) and click on Share -> Publish.
+### Key API Endpoints
 
-## I want to use a custom domain - is that possible?
+- **Authentication**: `/api/auth/*`
+- **Content Management**: `/api/content/*`
+- **Subscriber Management**: `/api/subscribers/*`
+- **User Management**: `/api/users/*`
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## Deployment
+
+### Backend Deployment
+
+1. Build the production backend:
+   ```bash
+   cd server
+   npm run build
+   ```
+
+2. Start the production server:
+   ```bash
+   npm start
+   ```
+
+### Frontend Deployment
+
+1. Build the production frontend:
+   ```bash
+   npm run build
+   ```
+
+2. Deploy the `dist` directory to your web server
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit your changes: `git commit -m 'Add some feature'`
+4. Push to the branch: `git push origin feature-name`
+5. Submit a pull request
+
+## License
+
+[MIT License](LICENSE)
+
+## Support
+
+For support, contact support@quantumbets.com
