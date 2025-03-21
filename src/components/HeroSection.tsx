@@ -47,7 +47,7 @@ const HeroSection = () => {
             transition={{ duration: 0.5 }}
             className="text-xl md:text-2xl font-mono text-white/90 bg-clip-text text-transparent bg-gradient-to-r from-orange-300 to-purple-300 mb-4 block tracking-wide"
           >
-            ELEVATE YOUR BETTING STRATEGY
+            AI-POWERED SPORTS BETTING
           </motion.span>
           
           <motion.h1
@@ -65,7 +65,7 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-2xl md:text-3xl font-display text-white/90 mb-6"
           >
-            AI-POWERED PRECISION PICKS
+            EDGE-FINDING ALGORITHMS
           </motion.h2>
           
           <motion.p
@@ -74,31 +74,15 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="text-lg md:text-xl text-white/70 mb-8 max-w-2xl mx-auto font-mono"
           >
-            Our proprietary algorithm delivers exceptional ROI with a {' '}
-            {isLoading ? (
+            Our AI stack delivers {isLoading ? (
               <span className="inline-flex items-center">
                 <Loader2 className="h-4 w-4 animate-spin mr-1" />
                 loading...
               </span>
             ) : (
               <span className="text-green-400 font-bold">{returnPercentage}%</span>
-            )}{' '}
-            success rate across major sports.
+            )} ROI with a proven success rate across major sports since March 10th 2025.
           </motion.p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="flex justify-center mb-6"
-          >
-            <Link to="/signup">
-              <Button size="lg" className="rounded-full px-8 bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl group">
-                Get Access
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          </motion.div>
           
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -110,21 +94,21 @@ const HeroSection = () => {
               <div className="bg-white/10 rounded-full p-2 mr-3">
                 <Zap className="h-5 w-5 text-orange-400" />
               </div>
-              <span className="text-white/70">24/7 AI analysis</span>
+              <span className="text-white/70">LLM Stack</span>
             </div>
             
             <div className="flex items-center">
               <div className="bg-white/10 rounded-full p-2 mr-3">
                 <BarChart3 className="h-5 w-5 text-purple-400" />
               </div>
-              <span className="text-white/70">Transparent pricing</span>
+              <span className="text-white/70">API Integration</span>
             </div>
             
             <div className="flex items-center">
               <div className="bg-white/10 rounded-full p-2 mr-3">
                 <ArrowUpRight className="h-5 w-5 text-orange-400" />
               </div>
-              <span className="text-white/70">Edge detection</span>
+              <span className="text-white/70">Prompt Engineering</span>
             </div>
           </motion.div>
         </div>
